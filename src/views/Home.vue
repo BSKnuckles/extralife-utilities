@@ -1,18 +1,54 @@
 <template>
-    <div class="home">
-        <img alt="Vue logo" src="../assets/logo.png" />
-        <HelloWorld msg="Welcome to Your Vue.js App" />
+    <div
+        class="
+            w-screen
+            h-screen
+            flex
+            items-center
+            justify-center
+            gap-x-4
+            bg-gray-800
+        "
+    >
+        <router-link
+            to="alerts"
+            class="
+                bg-purple-700
+                text-white
+                rounded-lg
+                shadow
+                py-4
+                px-6
+                text-lg
+                transform
+                hover:translate-y-2
+                transition-all
+                duration-200
+            "
+            >Alerts</router-link
+        >
+        <router-link
+            to="progress"
+            class="
+                bg-purple-700
+                text-white
+                rounded-lg
+                shadow
+                py-4
+                px-6
+                text-lg
+                transform
+                hover:translate-y-2
+                transition-all
+                duration-200
+            "
+            >Progress</router-link
+        >
     </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
 export default {
     name: 'Home',
-    components: {
-        HelloWorld,
-    },
 }
 </script>
