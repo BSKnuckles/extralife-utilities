@@ -13,8 +13,18 @@
                     gap-6
                 "
             >
-                <li v-for="donor in donors" :key="donor">
-                    <p class="text-white font-bold text-5xl">{{ donor }}</p>
+                <li v-for="donor in donors" :key="donor.name">
+                    <p
+                        class="
+                            donorNames
+                            text-white
+                            font-bold
+                            text-4xl text-center
+                            whitespace-nowrap
+                        "
+                    >
+                        {{ donor.name }} donated ${{ donor.amount.toFixed(2) }}
+                    </p>
                 </li>
             </ul>
             <video width="1920" height="1080" autoplay>
@@ -54,7 +64,10 @@ export default {
             console.log('Triggering test notification')
             rolling.value = true
             testing.value = true
-            donors.value = ['EverydayKenway', 'BSKnuckles']
+            donors.value = [
+                { name: 'EverydayKenway', amount: 133.7 },
+                { name: 'BSKnuckles', amount: 80081.35 },
+            ]
             setTimeout(() => {
                 rolling.value = false
                 testing.value = false
@@ -66,7 +79,6 @@ export default {
             fetch(url)
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log(data)
                     let highRollers = data.filter((donation) => {
                         let donationTime = Moment(donation.createdDateUTC)
                         let reference = Moment()
@@ -79,9 +91,12 @@ export default {
                     })
                     if (highRollers.length > 0) {
                         rolling.value = true
-                        donors.value = highRollers.map(
-                            (donor) => donor.displayName
-                        )
+                        donors.value = highRollers.map((donor) => {
+                            return {
+                                name: donor.displayName,
+                                amount: donor.amount,
+                            }
+                        })
                     }
                 })
                 .finally(() => {
@@ -105,5 +120,27 @@ export default {
 <style>
 body {
     background-color: transparent;
+}
+.donorNames {
+    opacity: 0;
+    animation: fade 8s linear;
+    animation-delay: 7s;
+}
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    5% {
+        opacity: 0.75;
+    }
+    50% {
+        opacity: 1;
+    }
+    95% {
+        opacity: 0.75;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 </style>
