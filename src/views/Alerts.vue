@@ -6,7 +6,7 @@
                     absolute
                     left-1/2
                     right-1/2
-                    top-16
+                    top-32
                     flex flex-col
                     items-center
                     justify-center
