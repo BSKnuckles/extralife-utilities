@@ -39,7 +39,7 @@
 import { ref, onBeforeMount, computed } from 'vue'
 export default {
     setup() {
-        const refresh = 60000 // in ms (60,000 = 1 minute)
+        const refresh = 30000 // in ms (60,000 = 1 minute)
         const participantId = 451384
         const goal = ref(0)
         const progress = ref(0)

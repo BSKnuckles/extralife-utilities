@@ -1,8 +1,26 @@
 <template>
     <div>
-        <video v-if="rolling" width="1920" height="1080" autoplay>
-            <source src="/HighRoller.mp4" type="video/mp4" />
-        </video>
+        <div v-if="rolling">
+            <ul
+                class="
+                    absolute
+                    left-1/2
+                    right-1/2
+                    top-16
+                    flex flex-col
+                    items-center
+                    justify-center
+                    gap-6
+                "
+            >
+                <li v-for="donor in donors" :key="donor">
+                    <p class="text-white font-bold text-5xl">{{ donor }}</p>
+                </li>
+            </ul>
+            <video width="1920" height="1080" autoplay>
+                <source src="/HighRoller.mp4" type="video/mp4" />
+            </video>
+        </div>
         <button
             @click="testNotification"
             class="
@@ -22,30 +40,25 @@
 <script>
 import Moment from 'moment'
 import { ref } from 'vue'
-import HighRoller from '@/assets/HighRoller.mp4'
 
 export default {
     setup() {
-        const options = {
-            autoplay: true,
-            controls: false,
-            sources: [
-                {
-                    src: HighRoller,
-                    type: 'video/mp4',
-                },
-            ],
-        }
-        const refresh = 60000
+        const refresh = 30000 // in ms (60,000 = 1 minute)
         const participantId = 451384
         const rolling = ref(false)
+        const testing = ref(false)
+        const donors = ref([])
         const url = `https://extra-life.org/api/participants/${participantId}/donations`
 
         const testNotification = () => {
             console.log('Triggering test notification')
             rolling.value = true
+            testing.value = true
+            donors.value = ['EverydayKenway', 'BSKnuckles']
             setTimeout(() => {
                 rolling.value = false
+                testing.value = false
+                donors.value = []
             }, 15000)
         }
 
@@ -53,6 +66,7 @@ export default {
             fetch(url)
                 .then((res) => res.json())
                 .then((data) => {
+                    console.log(data)
                     let highRollers = data.filter((donation) => {
                         let donationTime = Moment(donation.createdDateUTC)
                         let reference = Moment()
@@ -65,11 +79,15 @@ export default {
                     })
                     if (highRollers.length > 0) {
                         rolling.value = true
+                        donors.value = highRollers.map(
+                            (donor) => donor.displayName
+                        )
                     }
                 })
                 .finally(() => {
                     setTimeout(() => {
                         rolling.value = false
+                        donors.value = []
                     }, 15000)
                 })
         }
@@ -79,7 +97,7 @@ export default {
             fetchDonations()
         }, refresh)
 
-        return { rolling, options, testNotification }
+        return { donors, rolling, testNotification }
     },
 }
 </script>
