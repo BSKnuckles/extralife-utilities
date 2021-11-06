@@ -15,13 +15,21 @@
         </p>
         <div
             id="container"
-            class="w-4/5 bg-gray-600 rounded-full h-1/6 flex items-center p-6"
+            class="
+                w-4/5
+                bg-kenway-teal-dark
+                rounded-full
+                h-1/6
+                flex
+                items-center
+                p-6
+            "
         >
             <div
                 id="bar"
                 :style="percentageWidth"
                 class="
-                    bg-purple-600
+                    bg-kenway-teal
                     h-full
                     rounded-l-full
                     flex
@@ -29,7 +37,9 @@
                     justify-center
                 "
             >
-                <p class="text-white text-3xl">{{ percentage.toFixed(0) }}%</p>
+                <p class="text-gray-800 text-3xl font-bold">
+                    {{ percentage.toFixed(0) }}%
+                </p>
             </div>
         </div>
     </div>
